@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Expressões Faciais</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url("https://www.criancasespeciais.com.br/wp-content/uploads/2023/03/dados-780x470.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: rgb(243, 243, 247);
+            font-size: 60px;
+            display: inline-block;
+            padding: 10px;
+        }
+        #game-container {
+            background-color: rgba(178, 111, 241, 0.8);
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 90%;
+            border-radius: 10px;
+        }
+        .emotion-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .emotion-button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .emotion-button:hover {
+            background-color: #8c93f2;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Expressões Faciais</h1>
+    <div id="game-container" class="container text-center">
+        <img id="emotionImage" class="emotion-image img-fluid" src="emocoes/feliz.png" alt="Expressão Facial">
+        <div id="message" class="mt-3"></div>
+        <div class="d-flex flex-wrap justify-content-center">
+            <button class="emotion-button btn btn-primary" onclick="checkAnswer('feliz')"><strong>Feliz</strong></button>
+            <button class="emotion-button btn btn-primary" onclick="checkAnswer('triste')"><strong>Triste</strong></button>
+            <button class="emotion-button btn btn-primary" onclick="checkAnswer('raiva')"><strong>Raiva</strong></button>
+            <button class="emotion-button btn btn-primary" onclick="checkAnswer('surpreso')"><strong>Surpreso</strong></button>
+        </div>
+        <button id="nextButton" class="emotion-button btn btn-success mt-3 hidden" onclick="nextQuestion()"><strong>Próxima</strong></button>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const emotions = [
+            { image: 'emocoes/feliz.png', answer: 'feliz' },
+            { image: 'emocoes/triste.png', answer: 'triste' },
+            { image: 'emocoes/raiva.png', answer: 'raiva' },
+            { image: 'emocoes/surpreso.png', answer: 'surpreso' }
+        ];
+
+        let currentEmotionIndex = 0;
+
+        function checkAnswer(answer) {
+            const correctAnswer = emotions[currentEmotionIndex].answer;
+            const messageDiv = document.getElementById('message');
+
+            if (answer === correctAnswer) {
+                messageDiv.innerHTML = "<h1 style='color:green;'>Correto!</h1>";
+            } else {
+                messageDiv.innerHTML = "<h1 style='color:red;'>Errado! A resposta correta é " + correctAnswer + ".</h1>";
+            }
+
+            document.getElementById('nextButton').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentEmotionIndex = (currentEmotionIndex + 1) % emotions.length;
+            document.getElementById('emotionImage').src = emotions[currentEmotionIndex].image;
+            document.getElementById('message').innerHTML = "";
+            document.getElementById('nextButton').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
